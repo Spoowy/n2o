@@ -9,7 +9,8 @@ var active = false,
     host = window.location.hostname;
 
 function client() { return ''; }
-function token()  { return sessionStorage.getItem("token")  || ''; };
+function token()  { return sessionStorage.getItem("token") || tokenC(); }
+function tokenC() { var c = document.cookie.match(new RegExp('(^| )X-Auth-Token=([^;]+)')); return (c ? c[2] : ''); }
 function qi(name) { return document.getElementById(name); }
 function qs(name) { return document.querySelector(name); }
 function qa(name) { return document.querySelectorAll(name); }
@@ -18,7 +19,7 @@ function is(x, num, name) { return x == undefined ? false : (x.t == 106 ? false 
 function co(name) { match = document.cookie.match(new RegExp(name + '=([^;]+)')); return match ? match[1] : undefined; }
 
 function N2O_start() {
-    document.cookie = 'X-Auth-Token=' + token() + '; path=/';
+    document.cookie = 'X-Auth-Token=' + token() + '; path=/;' + (host == 'localhost' ? '' : ' domain=maypower.services;');
     ws = new bullet(protocol + host + (port==""?"":":"+port) + "/ws" + querystring);
     ws.onmessage = function (evt) { // formatters loop
     for (var i=0;i<protos.length;i++) { p = protos[i]; if (p.on(evt, p.do).status == "ok") return; } };
