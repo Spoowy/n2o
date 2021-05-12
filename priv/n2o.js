@@ -6,10 +6,12 @@ var active = false,
     session = "site-sid",
     protocol = window.location.protocol == 'https:' ? "wss://" : "ws://",
     querystring = window.location.pathname + window.location.search;
+    host = window.location.hostname;
 
 function client() { return ''; }
 function token()  { return sessionStorage.getItem("token") || tokenC(); }
 function tokenC() { var c = document.cookie.match(new RegExp('(^| )X-Auth-Token=([^;]+)')); return (c ? c[2] : ''); }
+
 function qi(name) { return document.getElementById(name); }
 function qs(name) { return document.querySelector(name); }
 function qa(name) { return document.querySelectorAll(name); }
